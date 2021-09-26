@@ -1,0 +1,53 @@
+command /balance [<player>]:
+	aliases: /bal
+	trigger:
+		if {balance::%player%} is not set:
+			set {balance::%player%} to 0
+		if arg 1 is not set:
+			message "&aYour balance is {balance::%player%}.00"
+		else:
+			message "&a%arg 1%'s balance is {balance::%player%}.00"
+			
+command /cc <text> [<player>] [<integer>]:
+	trigger:
+		if arg 1 is "pay":
+			arg 2 is set
+			arg 3 is set
+			if {balance::%player%} is greater than or equal to arg 3:
+				if arg 3 is greater than 0:
+					subtract arg 3 from {balance::%player%}
+					add arg 3 to {balance::%arg 2%}
+					message "&aYou paid %arg 2% %arg 3%.00"
+					message "&aYou recieved %arg 3%.00 from %player%." to arg 2
+				else:
+					message "&cYou cannot pay someone a value less than 1 dollar!"
+			else:
+				message "&cYou do not have enough money to do that!"
+		else if arg 1 is "add":
+			if player is op:
+				if arg 3 is greater than 0:
+					add arg 3 to {balance::%arg 2%}
+					message "&aYou gave %arg 3%.00 to %arg 2%."
+					message "&a%arg 3% has been added to your account." to arg 2
+		else if arg 1 is "remove":
+			if player is op:
+				if arg 3 is greater than 0:
+					if arg 3 is less than or equal to {balance::%arg 2%}:
+						subtract arg 3 from {balance::%arg 2%}
+						message "&aYou removed %arg 3%.00 from %arg 2%'s account."
+						message "&a%arg 3%.00 has been removed from your account." to arg 2
+					else:
+						message "&cYou cannot remove more money than the account has!"
+				else:
+					message "&cYou cannot remove a value less than 1 dollar!"
+		else if arg 1 is "clear":
+			if player is op:
+				delete {balance::%arg 2%}
+				message "&c%arg 2%'s account has been cleared!"
+		else if arg 1 is "clearall":
+			if player is op:
+				delete {balance::*}
+				message "&cCleared all Accounts!"
+		else:
+			message "&cSorry, that command was entered incorrectly, Try again."
+				
