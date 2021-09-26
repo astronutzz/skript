@@ -1,18 +1,9 @@
-command /v:
-	permission: vanish.use
-	permission message: {@noperm}
-	usage: &c/v
+command /togglestaff:
 	trigger:
-		if {vanished.%player%} is 0:
-			set {vanished.%player%} to 1
-			execute console command "effect %player% invisibility 99999 2 true"
-			send "{@servername} &7You Are Now &9Vanished"
+		if {togglestaff.%player%} is 0:
+			set {togglestaff.%player%} to 1
+			send "&aYou can now see reports, requests and staff chat."
 		else:
-			if {vanished.%player%} is 1:
-				set {vanished.%player%} to 0
-				execute console command "effect %player% clear"
-				send "{@servername} &7You Are No Longer &9Vanished"
- 
-#now we just copy and paste this skript into a skript editor
-#just realised
-#you need to put "true" after the numbers!
+			if {toggestaff.%player%} is 1:
+				set {togglestaff.%player%} to 0
+				send "&cYou can no longer see reports, requests, and staff chat."
